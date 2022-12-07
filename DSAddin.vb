@@ -37,19 +37,19 @@ Public Class MenusAndToolbars
         m_CommandNotes = New CommandDwgNotes(application, m_AddinGUID)
         m_CommandNotes.registerCommand()
 
-        'Dim menu As MenuItem = application.AddMenu(m_AddinGUID, dsUIState_e.dsUIState_Document, 9, "Ribbon")
-        'If menu Is Nothing Then
-        '    Return
-        'End If
+        Dim menu As MenuItem = application.AddMenu(m_AddinGUID, dsUIState_e.dsUIState_Document, 9, "Drawing Notes")
+        If menu Is Nothing Then
+            Return
+        End If
 
-        'Dim toolbar As Toolbar = application.AddToolbar(m_AddinGUID, dsUIState_e.dsUIState_Document, "Ribbon")
-        'If toolbar Is Nothing Then
-        '    Return
-        'End If
+        Dim toolbar As Toolbar = application.AddToolbar(m_AddinGUID, dsUIState_e.dsUIState_Document, "Drawing Notes")
+        If toolbar Is Nothing Then
+            Return
+        End If
 
-        'm_CommandHello.createUserCommand()
-        'm_CommandHello.insert(menu, 1)
-        'm_CommandHello.insert(toolbar, 1)
+        m_CommandNotes.createUserCommand()
+        m_CommandNotes.insert(menu, 1)
+        m_CommandNotes.insert(toolbar, 1)
 
         Dim [Error] As dsCreateCommandError_e
         Dim tb_standards As UserCommand = application.CreateUserCommand(m_AddinGUID, m_CommandNotes.localName(), "^C^CMHELLO", "Shows the Ribbon items: MHELLO", "c:/Program Files/Dassault Systemes/DraftSight/APISDK/samples/VB.Net/simple/Ribbon/ToolBar_Large.png", "c:/Program Files/Dassault Systemes/DraftSight/APISDK/samples/VB.Net/simple/Ribbon/ToolBar_Small.png",
@@ -57,117 +57,120 @@ Public Class MenusAndToolbars
 
         Dim tb_Hello_id As String = tb_standards.GetID()
 
-        Dim dsWorkSpace As WorkSpace = application.AddWorkspace("SampleWorkSpace")
-        dsWorkSpace.Activate()
+        Dim dsWorkSpace As WorkSpace
+        dsWorkSpace = application.GetActiveWorkspace
 
-        Dim tabs As Object = dsWorkSpace.GetRibbonTabs()
-        Dim objects As Object() = DirectCast(tabs, Object())
-        Dim length As Integer = 1
+        'Dim dsWorkSpace As WorkSpace = application.AddWorkspace("SampleWorkSpace")
+        'dsWorkSpace.Activate()
+
+        'Dim tabs As Object = dsWorkSpace.GetRibbonTabs()
+        'Dim objects As Object() = DirectCast(tabs, Object())
+        'Dim length As Integer = 1
 
         'Add a New Tab
-        Dim ribbonTab As RibbonTab = dsWorkSpace.AddRibbonTab(m_AddinGUID, length, "Circle", "Circle")
-        If ribbonTab IsNot Nothing Then
-            'Add a New Pannel to RibbonSampleTab Tab
-            Dim dsRibbonPanel As RibbonPanel = ribbonTab.InsertRibbonPanel(m_AddinGUID, 1, "Sample", "Sample")
-            dsRibbonPanel.Name = "Draw Circle"
-            dsRibbonPanel.DisplayText = "Draw Circle"
+        'Dim ribbonTab As RibbonTab = dsWorkSpace.AddRibbonTab(m_AddinGUID, length, "Circle", "Circle")
+        'If ribbonTab IsNot Nothing Then
+        '    'Add a New Pannel to RibbonSampleTab Tab
+        '    Dim dsRibbonPanel As RibbonPanel = ribbonTab.InsertRibbonPanel(m_AddinGUID, 1, "Sample", "Sample")
+        '    dsRibbonPanel.Name = "Draw Circle"
+        '    dsRibbonPanel.DisplayText = "Draw Circle"
 
-            'Add a New Row to SamplePannel
-            Dim dsRibbonRow As RibbonRow = dsRibbonPanel.InsertRibbonRow(m_AddinGUID, "CircleRow")
-            'Add a New Button to SampleRow
-            Dim dsRibbonCmdBtn1 As RibbonCommandButton, dsRibbonCmdBtn2 As RibbonCommandButton
-            dsRibbonCmdBtn1 = dsRibbonRow.InsertRibbonCommandButton(m_AddinGUID, dsRibbonButtonStyle_e.dsRibbonButtonStyle_LargeWithText, "Small Circle", tb_Hello_id)
-            'Add a Separator to SampleRow
-            Dim dsRibbonSeparator As RibbonSeparator = dsRibbonRow.InsertRibbonSeparator(m_AddinGUID, dsRibbonSeparatorStyle_e.dsRibbonSeparatorStyle_Spacer)
-            'Add a New Button to SampleRow
-            dsRibbonCmdBtn2 = dsRibbonRow.InsertRibbonCommandButton(m_AddinGUID, dsRibbonButtonStyle_e.dsRibbonButtonStyle_LargeWithText, "Big Circle", tb_Hello_id)
+        '    'Add a New Row to SamplePannel
+        '    Dim dsRibbonRow As RibbonRow = dsRibbonPanel.InsertRibbonRow(m_AddinGUID, "CircleRow")
+        '    'Add a New Button to SampleRow
+        '    Dim dsRibbonCmdBtn1 As RibbonCommandButton, dsRibbonCmdBtn2 As RibbonCommandButton
+        '    dsRibbonCmdBtn1 = dsRibbonRow.InsertRibbonCommandButton(m_AddinGUID, dsRibbonButtonStyle_e.dsRibbonButtonStyle_LargeWithText, "Small Circle", tb_Hello_id)
+        '    'Add a Separator to SampleRow
+        '    Dim dsRibbonSeparator As RibbonSeparator = dsRibbonRow.InsertRibbonSeparator(m_AddinGUID, dsRibbonSeparatorStyle_e.dsRibbonSeparatorStyle_Spacer)
+        '    'Add a New Button to SampleRow
+        '    dsRibbonCmdBtn2 = dsRibbonRow.InsertRibbonCommandButton(m_AddinGUID, dsRibbonButtonStyle_e.dsRibbonButtonStyle_LargeWithText, "Big Circle", tb_Hello_id)
 
-            'Add a new panel
-            dsRibbonPanel = ribbonTab.InsertRibbonPanel(m_AddinGUID, 2, "Draw Arc", "Draw Arc")
-            dsRibbonRow = dsRibbonPanel.InsertRibbonRow(m_AddinGUID, "ArcRow")
-            'Add a New Button to SampleRow
-            dsRibbonCmdBtn1 = dsRibbonRow.InsertRibbonCommandButton(m_AddinGUID, dsRibbonButtonStyle_e.dsRibbonButtonStyle_LargeWithText, "Small Arc", tb_Hello_id)
-            'Add a Separator to SampleRow
-            dsRibbonSeparator = dsRibbonRow.InsertRibbonSeparator(m_AddinGUID, dsRibbonSeparatorStyle_e.dsRibbonSeparatorStyle_Spacer)
-            'Add a New Button to SampleRow
-            dsRibbonCmdBtn2 = dsRibbonRow.InsertRibbonCommandButton(m_AddinGUID, dsRibbonButtonStyle_e.dsRibbonButtonStyle_LargeWithText, "Big Arc", tb_Hello_id)
-        End If
+        '    'Add a new panel
+        '    dsRibbonPanel = ribbonTab.InsertRibbonPanel(m_AddinGUID, 2, "Draw Arc", "Draw Arc")
+        '    dsRibbonRow = dsRibbonPanel.InsertRibbonRow(m_AddinGUID, "ArcRow")
+        '    'Add a New Button to SampleRow
+        '    dsRibbonCmdBtn1 = dsRibbonRow.InsertRibbonCommandButton(m_AddinGUID, dsRibbonButtonStyle_e.dsRibbonButtonStyle_LargeWithText, "Small Arc", tb_Hello_id)
+        '    'Add a Separator to SampleRow
+        '    dsRibbonSeparator = dsRibbonRow.InsertRibbonSeparator(m_AddinGUID, dsRibbonSeparatorStyle_e.dsRibbonSeparatorStyle_Spacer)
+        '    'Add a New Button to SampleRow
+        '    dsRibbonCmdBtn2 = dsRibbonRow.InsertRibbonCommandButton(m_AddinGUID, dsRibbonButtonStyle_e.dsRibbonButtonStyle_LargeWithText, "Big Arc", tb_Hello_id)
+        'End If
 
-        ribbonTab = dsWorkSpace.AddRibbonTab(m_AddinGUID, length + 1, "Line", "Line")
-        If ribbonTab IsNot Nothing Then
-            'Add a New Pannel to RibbonSampleTab Tab
-            Dim dsRibbonPanel As RibbonPanel = ribbonTab.InsertRibbonPanel(m_AddinGUID, 1, "Sample", "Sample")
-            dsRibbonPanel.Name = "Draw Line"
-            dsRibbonPanel.DisplayText = "Draw Line"
+        'ribbonTab = dsWorkSpace.AddRibbonTab(m_AddinGUID, length + 1, "Line", "Line")
+        'If ribbonTab IsNot Nothing Then
+        '    'Add a New Pannel to RibbonSampleTab Tab
+        '    Dim dsRibbonPanel As RibbonPanel = ribbonTab.InsertRibbonPanel(m_AddinGUID, 1, "Sample", "Sample")
+        '    dsRibbonPanel.Name = "Draw Line"
+        '    dsRibbonPanel.DisplayText = "Draw Line"
 
-            'Add a New Row to SamplePannel
-            Dim dsRibbonRow As RibbonRow = dsRibbonPanel.InsertRibbonRow(m_AddinGUID, "LineRow")
-            'Add a New Button to SampleRow
-            Dim dsRibbonCmdBtn1 As RibbonCommandButton, dsRibbonCmdBtn2 As RibbonCommandButton
-            dsRibbonCmdBtn1 = dsRibbonRow.InsertRibbonCommandButton(m_AddinGUID, dsRibbonButtonStyle_e.dsRibbonButtonStyle_LargeWithText, "Small Line", tb_Hello_id)
-            'Add a Separator to SampleRow
-            Dim dsRibbonSeparator As RibbonSeparator = dsRibbonRow.InsertRibbonSeparator(m_AddinGUID, dsRibbonSeparatorStyle_e.dsRibbonSeparatorStyle_Spacer)
-            'Add a New Button to SampleRow
-            dsRibbonCmdBtn2 = dsRibbonRow.InsertRibbonCommandButton(m_AddinGUID, dsRibbonButtonStyle_e.dsRibbonButtonStyle_LargeWithText, "Big Line", tb_Hello_id)
-        End If
+        '    'Add a New Row to SamplePannel
+        '    Dim dsRibbonRow As RibbonRow = dsRibbonPanel.InsertRibbonRow(m_AddinGUID, "LineRow")
+        '    'Add a New Button to SampleRow
+        '    Dim dsRibbonCmdBtn1 As RibbonCommandButton, dsRibbonCmdBtn2 As RibbonCommandButton
+        '    dsRibbonCmdBtn1 = dsRibbonRow.InsertRibbonCommandButton(m_AddinGUID, dsRibbonButtonStyle_e.dsRibbonButtonStyle_LargeWithText, "Small Line", tb_Hello_id)
+        '    'Add a Separator to SampleRow
+        '    Dim dsRibbonSeparator As RibbonSeparator = dsRibbonRow.InsertRibbonSeparator(m_AddinGUID, dsRibbonSeparatorStyle_e.dsRibbonSeparatorStyle_Spacer)
+        '    'Add a New Button to SampleRow
+        '    dsRibbonCmdBtn2 = dsRibbonRow.InsertRibbonCommandButton(m_AddinGUID, dsRibbonButtonStyle_e.dsRibbonButtonStyle_LargeWithText, "Big Line", tb_Hello_id)
+        'End If
 
-        ribbonTab = dsWorkSpace.AddRibbonTab(m_AddinGUID, length + 2, "PolyLine", "PolyLine")
-        If ribbonTab IsNot Nothing Then
-            'Add a New Pannel to RibbonSampleTab Tab
-            Dim dsRibbonPanel As RibbonPanel = ribbonTab.InsertRibbonPanel(m_AddinGUID, 1, "Sample", "Sample")
-            dsRibbonPanel.Name = "Draw PolyLine"
-            dsRibbonPanel.DisplayText = "Draw PolyLine"
+        'ribbonTab = dsWorkSpace.AddRibbonTab(m_AddinGUID, length + 2, "PolyLine", "PolyLine")
+        'If ribbonTab IsNot Nothing Then
+        '    'Add a New Pannel to RibbonSampleTab Tab
+        '    Dim dsRibbonPanel As RibbonPanel = ribbonTab.InsertRibbonPanel(m_AddinGUID, 1, "Sample", "Sample")
+        '    dsRibbonPanel.Name = "Draw PolyLine"
+        '    dsRibbonPanel.DisplayText = "Draw PolyLine"
 
-            'Add a New Row to SamplePannel
-            Dim dsRibbonRow As RibbonRow = dsRibbonPanel.InsertRibbonRow(m_AddinGUID, "PolyLineRow")
-            'Add a New Button to SampleRow
-            Dim dsRibbonCmdBtn1 As RibbonCommandButton, dsRibbonCmdBtn2 As RibbonCommandButton
-            dsRibbonCmdBtn1 = dsRibbonRow.InsertRibbonCommandButton(m_AddinGUID, dsRibbonButtonStyle_e.dsRibbonButtonStyle_LargeWithText, "Small PolyLine", tb_Hello_id)
-            'Add a Separator to SampleRow
-            Dim dsRibbonSeparator As RibbonSeparator = dsRibbonRow.InsertRibbonSeparator(m_AddinGUID, dsRibbonSeparatorStyle_e.dsRibbonSeparatorStyle_Spacer)
-            'Add a New Button to SampleRow
-            dsRibbonCmdBtn2 = dsRibbonRow.InsertRibbonCommandButton(m_AddinGUID, dsRibbonButtonStyle_e.dsRibbonButtonStyle_LargeWithText, "Big PolyLine", tb_Hello_id)
-        End If
+        '    'Add a New Row to SamplePannel
+        '    Dim dsRibbonRow As RibbonRow = dsRibbonPanel.InsertRibbonRow(m_AddinGUID, "PolyLineRow")
+        '    'Add a New Button to SampleRow
+        '    Dim dsRibbonCmdBtn1 As RibbonCommandButton, dsRibbonCmdBtn2 As RibbonCommandButton
+        '    dsRibbonCmdBtn1 = dsRibbonRow.InsertRibbonCommandButton(m_AddinGUID, dsRibbonButtonStyle_e.dsRibbonButtonStyle_LargeWithText, "Small PolyLine", tb_Hello_id)
+        '    'Add a Separator to SampleRow
+        '    Dim dsRibbonSeparator As RibbonSeparator = dsRibbonRow.InsertRibbonSeparator(m_AddinGUID, dsRibbonSeparatorStyle_e.dsRibbonSeparatorStyle_Spacer)
+        '    'Add a New Button to SampleRow
+        '    dsRibbonCmdBtn2 = dsRibbonRow.InsertRibbonCommandButton(m_AddinGUID, dsRibbonButtonStyle_e.dsRibbonButtonStyle_LargeWithText, "Big PolyLine", tb_Hello_id)
+        'End If
 
-        ribbonTab = dsWorkSpace.AddRibbonTab(m_AddinGUID, length + 3, "Xline", "Xline")
-        If ribbonTab IsNot Nothing Then
-            'Add a New Pannel to RibbonSampleTab Tab
-            Dim dsRibbonPanel As RibbonPanel = ribbonTab.InsertRibbonPanel(m_AddinGUID, 1, "Sample", "Sample")
-            dsRibbonPanel.Name = "Draw Xline"
-            dsRibbonPanel.DisplayText = "Draw Xline"
+        'ribbonTab = dsWorkSpace.AddRibbonTab(m_AddinGUID, length + 3, "Xline", "Xline")
+        'If ribbonTab IsNot Nothing Then
+        '    'Add a New Pannel to RibbonSampleTab Tab
+        '    Dim dsRibbonPanel As RibbonPanel = ribbonTab.InsertRibbonPanel(m_AddinGUID, 1, "Sample", "Sample")
+        '    dsRibbonPanel.Name = "Draw Xline"
+        '    dsRibbonPanel.DisplayText = "Draw Xline"
 
-            'Add a New Row to SamplePannel
-            Dim dsRibbonRow As RibbonRow = dsRibbonPanel.InsertRibbonRow(m_AddinGUID, "XlineRow")
-            'Add a New Button to SampleRow
-            Dim dsRibbonCmdBtn1 As RibbonCommandButton, dsRibbonCmdBtn2 As RibbonCommandButton
-            dsRibbonCmdBtn1 = dsRibbonRow.InsertRibbonCommandButton(m_AddinGUID, dsRibbonButtonStyle_e.dsRibbonButtonStyle_LargeWithText, "Small Xline", tb_Hello_id)
-            'Add a Separator to SampleRow
-            Dim dsRibbonSeparator As RibbonSeparator = dsRibbonRow.InsertRibbonSeparator(m_AddinGUID, dsRibbonSeparatorStyle_e.dsRibbonSeparatorStyle_Spacer)
-            'Add a New Button to SampleRow
-            dsRibbonCmdBtn2 = dsRibbonRow.InsertRibbonCommandButton(m_AddinGUID, dsRibbonButtonStyle_e.dsRibbonButtonStyle_LargeWithText, "Big Xline", tb_Hello_id)
-        End If
+        '    'Add a New Row to SamplePannel
+        '    Dim dsRibbonRow As RibbonRow = dsRibbonPanel.InsertRibbonRow(m_AddinGUID, "XlineRow")
+        '    'Add a New Button to SampleRow
+        '    Dim dsRibbonCmdBtn1 As RibbonCommandButton, dsRibbonCmdBtn2 As RibbonCommandButton
+        '    dsRibbonCmdBtn1 = dsRibbonRow.InsertRibbonCommandButton(m_AddinGUID, dsRibbonButtonStyle_e.dsRibbonButtonStyle_LargeWithText, "Small Xline", tb_Hello_id)
+        '    'Add a Separator to SampleRow
+        '    Dim dsRibbonSeparator As RibbonSeparator = dsRibbonRow.InsertRibbonSeparator(m_AddinGUID, dsRibbonSeparatorStyle_e.dsRibbonSeparatorStyle_Spacer)
+        '    'Add a New Button to SampleRow
+        '    dsRibbonCmdBtn2 = dsRibbonRow.InsertRibbonCommandButton(m_AddinGUID, dsRibbonButtonStyle_e.dsRibbonButtonStyle_LargeWithText, "Big Xline", tb_Hello_id)
+        'End If
 
-        ribbonTab = dsWorkSpace.AddRibbonTab(m_AddinGUID, length + 4, "Ellipse", "Ellipse")
-        If ribbonTab IsNot Nothing Then
-            'Add a New Pannel to RibbonSampleTab Tab
-            Dim dsRibbonPanel As RibbonPanel = ribbonTab.InsertRibbonPanel(m_AddinGUID, 1, "Sample", "Sample")
-            dsRibbonPanel.Name = "Draw Ellipse"
-            dsRibbonPanel.DisplayText = "Draw Ellipse"
+        'ribbonTab = dsWorkSpace.AddRibbonTab(m_AddinGUID, length + 4, "Ellipse", "Ellipse")
+        'If ribbonTab IsNot Nothing Then
+        '    'Add a New Pannel to RibbonSampleTab Tab
+        '    Dim dsRibbonPanel As RibbonPanel = ribbonTab.InsertRibbonPanel(m_AddinGUID, 1, "Sample", "Sample")
+        '    dsRibbonPanel.Name = "Draw Ellipse"
+        '    dsRibbonPanel.DisplayText = "Draw Ellipse"
 
-            'Add a New Row to SamplePannel
-            Dim dsRibbonRow As RibbonRow = dsRibbonPanel.InsertRibbonRow(m_AddinGUID, "EllipseRow")
-            'Add a New Button to SampleRow
-            Dim dsRibbonCmdBtn1 As RibbonCommandButton, dsRibbonCmdBtn2 As RibbonCommandButton
-            dsRibbonCmdBtn1 = dsRibbonRow.InsertRibbonCommandButton(m_AddinGUID, dsRibbonButtonStyle_e.dsRibbonButtonStyle_LargeWithText, "Ellipse", tb_Hello_id)
-            'Add a Separator to SampleRow
-            Dim dsRibbonSeparator As RibbonSeparator = dsRibbonRow.InsertRibbonSeparator(m_AddinGUID, dsRibbonSeparatorStyle_e.dsRibbonSeparatorStyle_Spacer)
+        '    'Add a New Row to SamplePannel
+        '    Dim dsRibbonRow As RibbonRow = dsRibbonPanel.InsertRibbonRow(m_AddinGUID, "EllipseRow")
+        '    'Add a New Button to SampleRow
+        '    Dim dsRibbonCmdBtn1 As RibbonCommandButton, dsRibbonCmdBtn2 As RibbonCommandButton
+        '    dsRibbonCmdBtn1 = dsRibbonRow.InsertRibbonCommandButton(m_AddinGUID, dsRibbonButtonStyle_e.dsRibbonButtonStyle_LargeWithText, "Ellipse", tb_Hello_id)
+        '    'Add a Separator to SampleRow
+        '    Dim dsRibbonSeparator As RibbonSeparator = dsRibbonRow.InsertRibbonSeparator(m_AddinGUID, dsRibbonSeparatorStyle_e.dsRibbonSeparatorStyle_Spacer)
 
-            Dim dsRibbonSplitButton As RibbonSplitButton = dsRibbonRow.InsertRibbonSplitButton(m_AddinGUID, dsRibbonItemType_e.dsRibbonItemType_SplitButton, dsRibbonButtonStyle_e.dsRibbonButtonStyle_LargeWithText, dsRibbonSplitButtonListStyle_e.dsRibbonSplitButtonListStyle_IconText, dsRibbonSplitButtonBehaviour_e.dsRibbonSplitButtonBehaviour_FollowStaticText, "Split")
+        '    Dim dsRibbonSplitButton As RibbonSplitButton = dsRibbonRow.InsertRibbonSplitButton(m_AddinGUID, dsRibbonItemType_e.dsRibbonItemType_SplitButton, dsRibbonButtonStyle_e.dsRibbonButtonStyle_LargeWithText, dsRibbonSplitButtonListStyle_e.dsRibbonSplitButtonListStyle_IconText, dsRibbonSplitButtonBehaviour_e.dsRibbonSplitButtonBehaviour_FollowStaticText, "Split")
 
-            'Add a New Button to SampleRow
-            dsRibbonCmdBtn1 = dsRibbonSplitButton.InsertRibbonCommandButton(m_AddinGUID, dsRibbonButtonStyle_e.dsRibbonButtonStyle_LargeWithText, "Small Elliptical Arc", tb_Hello_id)
-            dsRibbonCmdBtn2 = dsRibbonSplitButton.InsertRibbonCommandButton(m_AddinGUID, dsRibbonButtonStyle_e.dsRibbonButtonStyle_LargeWithText, "Big Elliptical Arc", tb_Hello_id)
-        End If
+        '    'Add a New Button to SampleRow
+        '    dsRibbonCmdBtn1 = dsRibbonSplitButton.InsertRibbonCommandButton(m_AddinGUID, dsRibbonButtonStyle_e.dsRibbonButtonStyle_LargeWithText, "Small Elliptical Arc", tb_Hello_id)
+        '    dsRibbonCmdBtn2 = dsRibbonSplitButton.InsertRibbonCommandButton(m_AddinGUID, dsRibbonButtonStyle_e.dsRibbonButtonStyle_LargeWithText, "Big Elliptical Arc", tb_Hello_id)
+        'End If
 
         'Get system ribbon menu of the workspace
         Dim dsRibbonSystemMenu As RibbonSystemMenu = dsWorkSpace.GetRibbonSystemMenu()
@@ -176,23 +179,23 @@ Public Class MenusAndToolbars
         Dim objs As Object() = DirectCast(systemMenuItems, Object())
         Dim szRbSysMenu As Integer = objs.Length
 
-        'Insert items to the system ribbon menu
-        Dim dsRibbonSystemMenuItem As RibbonSystemMenuItem = dsRibbonSystemMenu.InsertRibbonSystemMenuItem(m_AddinGUID, dsRibbonItemType_e.dsRibbonItemType_SystemMenuItem, szRbSysMenu + 1, "Circle", tb_Hello_id)
-        dsRibbonSystemMenuItem = dsRibbonSystemMenu.InsertRibbonSystemMenuItem(m_AddinGUID, dsRibbonItemType_e.dsRibbonItemType_SystemMenuItem, szRbSysMenu + 2, "Line", tb_Hello_id)
-        dsRibbonSystemMenuItem = dsRibbonSystemMenu.InsertRibbonSystemMenuItem(m_AddinGUID, dsRibbonItemType_e.dsRibbonItemType_SystemMenuItem, szRbSysMenu + 3, "PolyLine", tb_Hello_id)
-        dsRibbonSystemMenuItem = dsRibbonSystemMenu.InsertRibbonSystemMenuItem(m_AddinGUID, dsRibbonItemType_e.dsRibbonItemType_SystemMenuItem, szRbSysMenu + 4, "Xline", tb_Hello_id)
-        dsRibbonSystemMenuItem = dsRibbonSystemMenu.InsertRibbonSystemMenuItem(m_AddinGUID, dsRibbonItemType_e.dsRibbonItemType_SystemMenuItem, szRbSysMenu + 5, "Ellipse", tb_Hello_id)
+        ''Insert items to the system ribbon menu
+        'Dim dsRibbonSystemMenuItem As RibbonSystemMenuItem = dsRibbonSystemMenu.InsertRibbonSystemMenuItem(m_AddinGUID, dsRibbonItemType_e.dsRibbonItemType_SystemMenuItem, szRbSysMenu + 1, "Circle", tb_Hello_id)
+        'dsRibbonSystemMenuItem = dsRibbonSystemMenu.InsertRibbonSystemMenuItem(m_AddinGUID, dsRibbonItemType_e.dsRibbonItemType_SystemMenuItem, szRbSysMenu + 2, "Line", tb_Hello_id)
+        'dsRibbonSystemMenuItem = dsRibbonSystemMenu.InsertRibbonSystemMenuItem(m_AddinGUID, dsRibbonItemType_e.dsRibbonItemType_SystemMenuItem, szRbSysMenu + 3, "PolyLine", tb_Hello_id)
+        'dsRibbonSystemMenuItem = dsRibbonSystemMenu.InsertRibbonSystemMenuItem(m_AddinGUID, dsRibbonItemType_e.dsRibbonItemType_SystemMenuItem, szRbSysMenu + 4, "Xline", tb_Hello_id)
+        'dsRibbonSystemMenuItem = dsRibbonSystemMenu.InsertRibbonSystemMenuItem(m_AddinGUID, dsRibbonItemType_e.dsRibbonItemType_SystemMenuItem, szRbSysMenu + 5, "Ellipse", tb_Hello_id)
 
 
-        'Add Ribbon Quick Access Bar
-        Dim dsRibbonQuickAccessBar As RibbonQuickAccessBar = dsWorkSpace.AddRibbonQuickAccessBar(m_AddinGUID, "SampleRQAB")
+        ''Add Ribbon Quick Access Bar
+        'Dim dsRibbonQuickAccessBar As RibbonQuickAccessBar = dsWorkSpace.AddRibbonQuickAccessBar(m_AddinGUID, "SampleRQAB")
 
-        'Add Ribbon Quick Access Bar items
-        Dim dsRibbonQuickAccessBarItem1 As RibbonQuickAccessBarItem = dsRibbonQuickAccessBar.InsertRibbonQuickAccessBarItem(m_AddinGUID, "RQAB", tb_Hello_id)
-        dsRibbonQuickAccessBarItem1 = dsRibbonQuickAccessBar.InsertRibbonQuickAccessBarItem(m_AddinGUID, "RQAB", tb_Hello_id)
-        dsRibbonQuickAccessBarItem1 = dsRibbonQuickAccessBar.InsertRibbonQuickAccessBarItem(m_AddinGUID, "RQAB", tb_Hello_id)
-        dsRibbonQuickAccessBarItem1 = dsRibbonQuickAccessBar.InsertRibbonQuickAccessBarItem(m_AddinGUID, "RQAB", tb_Hello_id)
-        dsRibbonQuickAccessBarItem1 = dsRibbonQuickAccessBar.InsertRibbonQuickAccessBarItem(m_AddinGUID, "RQAB", tb_Hello_id)
+        ''Add Ribbon Quick Access Bar items
+        'Dim dsRibbonQuickAccessBarItem1 As RibbonQuickAccessBarItem = dsRibbonQuickAccessBar.InsertRibbonQuickAccessBarItem(m_AddinGUID, "RQAB", tb_Hello_id)
+        'dsRibbonQuickAccessBarItem1 = dsRibbonQuickAccessBar.InsertRibbonQuickAccessBarItem(m_AddinGUID, "RQAB", tb_Hello_id)
+        'dsRibbonQuickAccessBarItem1 = dsRibbonQuickAccessBar.InsertRibbonQuickAccessBarItem(m_AddinGUID, "RQAB", tb_Hello_id)
+        'dsRibbonQuickAccessBarItem1 = dsRibbonQuickAccessBar.InsertRibbonQuickAccessBarItem(m_AddinGUID, "RQAB", tb_Hello_id)
+        'dsRibbonQuickAccessBarItem1 = dsRibbonQuickAccessBar.InsertRibbonQuickAccessBarItem(m_AddinGUID, "RQAB", tb_Hello_id)
 
         dsWorkSpace = application.GetWorkspace("Drafting and Annotation")
         Dim ObjTabArr As Object = dsWorkSpace.GetRibbonTabs()
